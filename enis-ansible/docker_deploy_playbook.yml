@@ -156,6 +156,13 @@
       docker-compose up -d
     args:
       chdir: "{{ project_src_path }}"
+  - name: Wait for backend-app to be running
+    wait_for:
+      host: "{{ inventory_hostname }}"
+      port: 8000
+      state: started
+      delay: 10
+      timeout: 300
   - name: Run makemigrations inside backend container
     command: docker exec {{ backend_container_name }} python manage.py makemigrations
   - name: Run migrate inside backend container
