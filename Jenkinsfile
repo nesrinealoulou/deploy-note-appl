@@ -82,21 +82,21 @@ pipeline {
                     dir('backend/backend') {
                         // Verify the existence of settings.py
                         sh '''
-                            if [ -f "settings.py" ]; then
+                        if [ -f "settings.py" ]; then
                                 echo "Found settings.py at $(pwd)"
                             else
                                 echo "settings.py not found in $(pwd)!"
                                 exit 1
-                            fi
+                        fi
                         '''
                         // Update the HOST in the DATABASES section
                         sh """
-                            sed -i "/'HOST':/c\\        'HOST': '${RDS_ENDPOINT}'," settings.py
+                        sed -i "/'HOST':/c\\        'HOST': '${RDS_ENDPOINT}'," settings.py
                         """
                         // Verify the DATABASES section after the update
                         sh '''
-                            echo "DATABASES section of settings.py after update:"
-                            sed -n '/DATABASES = {/,/^}/p' settings.py
+                        echo "DATABASES section of settings.py after update:"
+                        sed -n '/DATABASES = {/,/^}/p' settings.py
                         '''
                     }
                 }
