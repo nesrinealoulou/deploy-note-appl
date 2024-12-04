@@ -135,9 +135,18 @@ pipeline {
         stage('Login to AWS ECR') {
             steps {
                 script {
-                    sh """
+                    sh '''
+                    # Debug environment
+                    echo "PATH: $PATH"
+                    echo "AWS CLI version:"
+                    aws --version || { echo "AWS CLI not installed"; exit 1; }
+
+                    echo "Docker version:"
+                    docker --version || { echo "Docker CLI not installed"; exit 1; }
+
+                    # Login to ECR
                     aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URL}
-                    """
+                    '''
                 }
             }
         }
