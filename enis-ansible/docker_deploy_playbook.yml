@@ -18,6 +18,7 @@
 
 - name: Install Docker and Docker-compose
   hosts: servers
+  gather_facts: False
   become: yes
   vars_files:
     - ansible-vars.yaml
@@ -70,6 +71,7 @@
 
 - name: Install AWS CLI on EC2 Instances
   hosts: servers
+  gather_facts: False
   become: yes
   tasks:
     - name: Ensure curl is installed
@@ -108,7 +110,7 @@
         msg: "AWS CLI version: {{ aws_cli_version.stdout }}"
 - name: Pull Docker image for the frontend from ECR to EC2 instance
   hosts: servers
-  gather_facts: no
+  gather_facts: False
   become: yes
   vars_files:
   - ansible-vars.yaml
