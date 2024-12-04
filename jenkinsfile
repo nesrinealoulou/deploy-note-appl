@@ -62,7 +62,7 @@ pipeline {
         stage('Update Frontend Configuration') {
             steps {
                 script {
-                    dir('enis-app/frontend/src') {
+                    dir('frontend/src') {
                         writeFile file: 'config.js', text: """
                             export const API_BASE_URL = 'http://${EC2_PUBLIC_IP}:8000';
                         """
@@ -77,7 +77,7 @@ pipeline {
         stage('Update Backend Configuration') {
             steps {
                 script {
-                    dir('enis-app/backend/backend') {
+                    dir('backend/backend') {
                         // Verify the existence of settings.py
                         sh '''
                             if [ -f "settings.py" ]; then
