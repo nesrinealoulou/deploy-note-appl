@@ -109,10 +109,10 @@ pipeline {
                     """
                 }
             }
-            }
+        }
         stage('Build Frontend Docker Image') {
             steps {
-                    dir('enis-app-tp/frontend') {
+                    dir('frontend') {
                         script {
                             echo 'Building Frontend Docker Image...'
                             def frontendImage = docker.build('frontend-app')
@@ -123,7 +123,7 @@ pipeline {
             }
         stage('Build Backend Docker Image') {
             steps {
-                    dir('enis-app-tp/backend') {
+                    dir('backend') {
                         script {
                             echo 'Building Backend Docker Image...'
                             def backendImage = docker.build('backend-app')
@@ -162,7 +162,7 @@ pipeline {
         stage('Download SSH Key from S3') {
             steps {
                 script {
-                    dir('ansible') {
+                    dir('enis-ansible') {
                         sh """
                         # Check and delete the existing key if it exists
                         if [ -f "deployer_key.pem" ]; then
@@ -185,7 +185,7 @@ pipeline {
         stage('Update Hosts File') {
             steps {
                 script {
-                    dir('ansible') {
+                    dir('enis-ansible') {
                         sh """
                         if [ -f "hosts" ]; then
                             echo "Found hosts file at \$(pwd)"
@@ -204,7 +204,7 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    dir('ansible') {
+                    dir('enis-ansible') {
                         sh """
                         if [ -f "docker_deploy_playbook.yml" ]; then
                             echo "Found playbook docker_deploy_playbook.yml"
