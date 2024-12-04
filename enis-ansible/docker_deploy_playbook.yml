@@ -108,6 +108,7 @@
         msg: "AWS CLI version: {{ aws_cli_version.stdout }}"
 - name: Pull Docker image for the frontend from ECR to EC2 instance
   hosts: servers
+  gather_facts: no
   become: yes
   vars_files:
   - ansible-vars.yaml
@@ -136,6 +137,7 @@
         msg: "{{ docker_images_output.stdout }}"
 - name: Start Docker containers
   hosts: servers
+  gather_facts: False
   become: yes
   vars_files:
   - ansible-vars.yaml
